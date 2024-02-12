@@ -41,7 +41,7 @@ public class Client implements Serializable{
         frame.getContentPane().add(hostnameField);
         hostnameField.setColumns(10);
 
-        JLabel lblSocket = new JLabel("Socket:");
+        JLabel lblSocket = new JLabel("Port:");
         lblSocket.setBounds(20, 50, 100, 20);
         frame.getContentPane().add(lblSocket);
 
