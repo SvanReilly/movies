@@ -5,8 +5,12 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 
-public class Client  {
-    private JFrame frame;
+public class Client implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2019510724532679595L;
+	private JFrame frame;
     private JTextField hostnameField;
     private JTextField socketField;
     private JTextField nameField;
@@ -32,7 +36,7 @@ public class Client  {
         frame.getContentPane().add(lblHostname);
 
         hostnameField = new JTextField();
-        hostnameField.setText("localhost");
+        hostnameField.setText("10.192.104.93");
         hostnameField.setBounds(146, 20, 150, 20);
         frame.getContentPane().add(hostnameField);
         hostnameField.setColumns(10);

@@ -44,11 +44,20 @@ public class Server {
     	ArrayList<Integer> calificationList = new ArrayList<>();
 
         Document existingMovieDocument = movieCollection.find(Filters.eq("name",movie.getName())).first();
-
-        if (existingMovieDocument != null) {
+         if (existingMovieDocument != null) {
+             
+        	 if(existingMovieDocument.getString("name").equals("@1994@Default@2004@")) {
+             	
+        		 calificationList.add(0, 1994);
+        		 calificationList.add(1, 2004);
+             	movieCollection.updateOne(Filters.eq("name", "@1994@Default@2004@"), 
+             			Updates.set("califications", calificationList));
+             	
+             } else {
         	
         	calificationList = (ArrayList<Integer>) existingMovieDocument.get("califications");
-        	calificationList.add(movie.getCalification());
+        	
+        	calificationList.add(movie.getAverageCalification());
 
             int totalVotesVar =  calificationList.size();
 			int newCalification = 0;
@@ -67,23 +76,27 @@ public class Server {
             		Updates.set("califications", calificationList));
             
             existingMovieDocument =  movieCollection.find(Filters.eq("name",movie.getName())).first();
-            System.out.println("Updated movie: " + existingMovieDocument.toString());
-
+            
+            movie = new Movie(existingMovieDocument);
+            
+            System.out.println("Updated movie: " + movie.toString());
+             }
         } else {
         	
-        	calificationList.add(movie.getCalification());
+        	calificationList.add(movie.getAverageCalification());
             
         	Document newMovieDocument = new Document()
             		.append("name", movie.getName())
                     .append("releaseDate", movie.getReleaseDate())
                     .append("length", movie.getLength())
-                    .append("averageCalification", movie.getCalification())
+                    .append("averageCalification", movie.getAverageCalification())
                     .append("califications", calificationList);
         	
         	movieCollection.insertOne(newMovieDocument);
-            System.out.println("New movie added: " + newMovieDocument.toJson());
+        	movie = new Movie (newMovieDocument);
+            System.out.println("New movie added: " + movie.toString());
         }
-       
+	
      }
 
 	public static void main(String[] args) {
